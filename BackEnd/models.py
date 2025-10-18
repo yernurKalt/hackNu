@@ -7,12 +7,11 @@ class Project(Base):
     __tablename__ = 'projects'
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, unique=True, index=True)
-    brand_name = Column(String, nullable=False)
+    #brand_name = Column(String, nullable=False)
     created_at = Column(String, default=datetime.now(datetime.timezone.utc).isoformat())
     locales = relationship("Locale", back_populates="project")
     menu_items = relationship("MenuItem", back_populates="project")
-    
-
+    scripts = relationship("Script", back_populates="project", cascade="all,delete")
 
 class Locale(Base):
     __tablename__ = 'locales'
@@ -43,5 +42,16 @@ class RenderJob(Base):
     video_url = Column(String)
     duration = Column(Float, default=0.0)
     logs = Column(Text, default='')
+
+class Script(Base):
+    __tablename__ = "scripts"
+    id = Column(Integer, primary_key=True)
+    project_id = Column(Integer, ForeignKey("projects.id"))
+    locale_id = Column(Integer, ForeignKey("locales.id"))
+    hook_type = Column(String(32))
+    text = Column(Text, nullable=False)
+    safe_score = Column(Float, default=1.0)
+    project = relationship("Project", back_populates="scripts")
+    jobs = relationship("RenderJob", back_populates="script", cascade="all,delete")
 
 
