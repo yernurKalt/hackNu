@@ -7,14 +7,14 @@ class ProjectCreate(BaseModel):
 
 class LocaleCreate(BaseModel):
     code: str
-    currency: str = "₸"
+    currency: str = "T"
 
 class MenuItemIn(BaseModel):
     title: str
     price: float
 
 class PlanIn(BaseModel):
-    locales: List[str]         # must be in ["RU","KZ"]
+    locales: List[str]         # must be in RU and KZ languages
     hooks: List[str]           # collection of price, speed and quality
     n_per_hook: int = 1
 
