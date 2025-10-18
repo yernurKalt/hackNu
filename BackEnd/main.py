@@ -1,14 +1,14 @@
 from fastapi import FastAPI
 from BackEnd.db import Base, engine
-from .api.routes.projects import router as projects
-from .api.routes.menu import router as menu
-from .api.routes.plan import router as plan
-from .api.routes.render import router as render
-from .api.routes.jobs import router as jobs
+from BackEnd.routes.projects import router as projects
+from BackEnd.api.routes.menu import router as menu
+from BackEnd.api.routes.plan import router as plan
+from BackEnd.api.routes.render import router as render
+from BackEnd.api.routes.jobs import router as jobs
 
 app = FastAPI(title="Ad-Chef Localizer API")
 
-@app.on_event("start")
+@app.lifespan("start")
 def init_db():
     Base.metadata.create_all(bind=engine)
 
